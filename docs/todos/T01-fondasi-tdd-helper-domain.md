@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -47,14 +47,14 @@
 
 ## Acceptance criteria
 
-- [ ] `pnpm test` tersedia, memakai Vitest environment Node, alias `@` berfungsi, dan dijalankan dengan `TZ=UTC`.
-- [ ] `pnpm test:watch` tersedia untuk loop red → green.
-- [ ] Test integrasi database dikecualikan dari `pnpm test` (disiapkan sebagai `*.integration.test.ts` untuk T03).
-- [ ] Semua perilaku di atas memiliki test yang ditulis sebelum implementasi dan lulus.
-- [ ] Copy error sama persis dengan §7.5, termasuk tanda baca.
-- [ ] Helper mengembalikan nilai ternormalisasi tanpa mengubah data mentah yang dibutuhkan form.
-- [ ] Tidak ada dependensi runtime baru; Vitest hanya di `devDependencies`.
-- [ ] `pnpm lint` dan `pnpm build` lulus.
+- [x] `pnpm test` tersedia, memakai Vitest environment Node, alias `@` berfungsi, dan dijalankan dengan `TZ=UTC`.
+- [x] `pnpm test:watch` tersedia untuk loop red → green.
+- [x] Test integrasi database dikecualikan dari `pnpm test` (disiapkan sebagai `*.integration.test.ts` untuk T03).
+- [x] Semua perilaku di atas memiliki test yang ditulis sebelum implementasi dan lulus.
+- [x] Copy error sama persis dengan §7.5, termasuk tanda baca.
+- [x] Helper mengembalikan nilai ternormalisasi tanpa mengubah data mentah yang dibutuhkan form.
+- [x] Tidak ada dependensi runtime baru; Vitest hanya di `devDependencies`.
+- [x] `pnpm lint` dan `pnpm build` lulus.
 
 ## Di luar cakupan
 

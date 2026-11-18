@@ -32,6 +32,19 @@ app/
       ├─ page.tsx             # /categories
       ├─ [id]/edit/page.tsx   # /categories/:id/edit
       └─ actions.ts
+
+lib/
+├─ date.ts                    # helper tanggal Asia/Jakarta
+├─ month.ts                   # helper bulan dan rentang query
+├─ currency.ts                # format rupiah dan parsing nominal
+└─ validation.ts              # validasi field dan copy error
+
+tests/
+├─ date.test.ts               # unit test helper tanggal
+├─ month.test.ts              # unit test helper bulan
+├─ currency.test.ts           # unit test helper mata uang
+├─ validation.test.ts         # unit test validasi
+└─ *.integration.test.ts      # test integrasi database (T03)
 ```
 
 Route group tidak memengaruhi URL. `app/(auth)/login/page.tsx` menghasilkan `/login`, sedangkan `app/(core)/page.tsx` menghasilkan `/`.
@@ -45,6 +58,16 @@ Route group tidak memengaruhi URL. `app/(auth)/login/page.tsx` menghasilkan `/lo
 - Komponen khusus satu fitur disimpan dekat fiturnya, misalnya `app/(core)/transactions/_components/`. Komponen UI bersama disimpan di `components/`.
 - Logika server dan akses data disimpan di `services/`, `db/`, dan `lib/`. Jangan mengimpor modul tersebut dari Client Component.
 - Semua mutasi memakai Server Action tervalidasi yang berada di group terkait. Jangan membuat REST API/route handler hanya untuk mutasi.
+
+## Penempatan test
+
+- Seluruh test otomatis disimpan di `tests/`, bukan di samping file implementasi. Pengecualian hanya file konfigurasi seperti `vitest.config.mts`.
+- Test fungsi murni dan service memakai akhiran `*.test.ts`; test integrasi database memakai akhiran `*.integration.test.ts`.
+- `pnpm test` menjalankan seluruh `tests/**/*.test.ts` dengan Vitest environment Node dan `TZ=UTC`, serta mengecualikan `*.integration.test.ts`.
+- `pnpm test:watch` dipakai untuk loop red → green. Test integrasi database dijalankan terpisah pada ticket yang membutuhkannya.
+- Gunakan alias `@` untuk mengimpor modul aplikasi dari `tests/`, misalnya `@/lib/date`.
+- Jangan menambahkan jsdom atau Testing Library. Test komponen/browser tidak dipakai; UI diverifikasi manual.
+- Vitest hanya boleh berada di `devDependencies`. Jangan menambah library tanggal, uang, atau validasi baru untuk keperluan test.
 
 ## Proteksi route dan sesi
 
