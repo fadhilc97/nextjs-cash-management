@@ -14,6 +14,7 @@
 - Supabase Auth provider Email harus aktif, **confirm email nonaktif**, dan minimum password 8. Email confirmation yang aktif adalah kegagalan konfigurasi, bukan alur sukses.
 - Jangan membuat tabel password atau auth kustom. Jangan memakai Supabase client untuk data keuangan.
 - `params`/`searchParams` adalah Promise; gunakan tipe `PageProps<...>`. Jangan menambah `"use cache"` pada halaman yang membaca sesi.
+- Gunakan library `zod` (sudah ada di `dependencies`) untuk skema validasi form login/signup di Server Action. Skema wajib memakai copy §7.5, menormalisasi email, tidak men-trim password, dan hanya mengembalikan email pada `values`; jangan menambah library validasi lain.
 
 ## Cakupan
 
@@ -22,7 +23,7 @@
 - Proxy: refresh sesi lewat helper yang ada, redirect optimistis, dan **salin cookie hasil refresh ke response redirect**.
 - Halaman `/login` dan `/signup` dengan layout auth tanpa sidebar/nav aplikasi. Theme toggle ditambahkan di T04.
 - Form login/signup memakai `useActionState`, `noValidate`, label eksplisit, `autocomplete`, pending "Memproses…", error inline, dan error form-level `role="alert"`.
-- Server Action `signUp`, `signIn`, `signOut`: validasi server dari T01, normalisasi email, password tidak di-trim, redirect hard-coded (`/` atau `/login`), tanpa parameter `next`.
+- Server Action `signUp`, `signIn`, `signOut`: validasi server dari T01 melalui skema Zod, normalisasi email, password tidak di-trim, redirect hard-coded (`/` atau `/login`), tanpa parameter `next`.
 - Signup yang tidak mengembalikan sesi **tidak boleh** redirect atau mengklaim sukses; tampilkan error generik dan log peringatan konfigurasi tanpa data sensitif.
 - `data.user.identities` kosong diperlakukan sebagai email sudah terdaftar.
 - `signOut` merevalidasi layout sebelum redirect agar cache sesi sebelumnya tidak dipakai.
@@ -69,6 +70,7 @@
 - [ ] Tidak ada parameter `next`, open redirect, atau redirect dari input pengguna.
 - [ ] Password/token tidak muncul di URL, state client, log, atau pesan error.
 - [ ] Tidak ada nav aplikasi di halaman auth; `lang="id"`, metadata, dan token tema terpasang.
+- [ ] Validasi form auth di Server Action memakai skema Zod; tidak ada library validasi tambahan.
 - [ ] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan

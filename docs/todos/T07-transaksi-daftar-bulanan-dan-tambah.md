@@ -14,6 +14,7 @@
 - URL adalah sumber kebenaran bulan. Jangan menyimpan bulan di `localStorage` atau state global.
 - `<input type="month">` bukan satu-satunya kontrol: sediakan dua `<select>` (bulan dan tahun) atau fallback setara untuk Safari/iOS.
 - Jangan membuat pagination, pencarian, filter, sorting yang dapat diklik, atau grafik.
+- Gunakan library `zod` (sudah ada di `dependencies`) untuk skema validasi form transaksi baru di Server Action. Skema wajib memakai helper normalisasi dari T01, copy error §7.5, mengembalikan nilai form saat gagal, dan tidak menambah library validasi lain.
 
 ## Cakupan
 
@@ -43,7 +44,7 @@
   - daftar per bulan memakai rentang half-open dan urutan yang ditentukan;
   - buat transaksi setelah memverifikasi kategori milik user yang sama;
   - daftar opsi kategori A–Z milik user.
-- Server Action create: `requireUser()`, validasi server, simpan, revalidate `/` dan `/transactions`, redirect `/transactions?month=<bulan-dari-tanggal>&status=created`.
+- Server Action create: `requireUser()`, validasi server dengan skema Zod, simpan, revalidate `/` dan `/transactions`, redirect `/transactions?month=<bulan-dari-tanggal>&status=created`.
 - Error kategori asing/tidak ada: "Kategori tidak ditemukan. Muat ulang halaman."; error DB tak terduga: "Terjadi kesalahan. Silakan coba lagi." tanpa detail internal.
 
 ## TDD (wajib)
@@ -96,6 +97,7 @@
 - [ ] Form mempertahankan nilai setelah error, mencegah double submit, dan menampilkan pending.
 - [ ] Sukses redirect ke bulan tanggal transaksi dengan `status=created`.
 - [ ] Tanpa kategori, form diganti callout dengan CTA ke Kategori.
+- [ ] Validasi form transaksi baru di Server Action memakai skema Zod; tidak ada library validasi tambahan.
 - [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan

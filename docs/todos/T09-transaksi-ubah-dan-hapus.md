@@ -15,6 +15,7 @@
 - Hard delete. Tidak ada soft delete, restore, audit log, atau undo.
 - `id` tidak valid/tidak ditemukan/milik user lain → `notFound()` untuk halaman edit; delete tidak boleh membocorkan keberadaan data.
 - Setelah mutasi, revalidate Dashboard dan daftar Transaksi, lalu redirect dengan status yang benar.
+- Gunakan library `zod` (sudah ada di `dependencies`) untuk skema validasi form transaksi ubah dan ID hapus. Jangan menduplikasi aturan validasi T07; pesan memakai copy §7.5, nilai form dikembalikan saat gagal, dan tidak menambah library validasi lain.
 
 ## Cakupan
 
@@ -30,7 +31,7 @@
   - Batal kembali ke daftar tanpa menyimpan.
 - Server Action update:
   - `id` di-bind di server lalu divalidasi ulang;
-  - `requireUser()`, validasi field dari T01, verifikasi kepemilikan transaksi **dan** kategori;
+  - `requireUser()`, validasi field dari T01 melalui skema Zod, verifikasi kepemilikan transaksi **dan** kategori;
   - revalidate `/` dan `/transactions`;
   - redirect `/transactions?month=<bulan-dari-tanggal-baru>&status=updated`.
 - Daftar transaksi: tambahkan kolom Aksi (tabel) dan tombol aksi (kartu mobile) berisi "Ubah" dan "Hapus".
@@ -39,7 +40,7 @@
   - Batal menutup tanpa perubahan; Escape menutup; fokus awal "Batal"; fokus kembali ke pemicu;
   - tombol hapus pending "Menghapus…" dan disabled.
 - Server Action delete:
-  - ID dari hidden input, divalidasi integer positif; `requireUser()`;
+  - ID dari hidden input, divalidasi integer positif melalui skema Zod; `requireUser()`;
   - hapus hanya transaksi milik user;
   - jika sudah tidak ada (termasuk ID milik user lain), redirect tetap sukses memakai `month` tersembunyi yang validasi (idempotent), tanpa stack trace;
   - revalidate `/` dan `/transactions`;
@@ -91,6 +92,7 @@
 - [ ] Delete sukses redirect ke bulan transaksi dengan `status=deleted`.
 - [ ] Dashboard dan daftar langsung mencerminkan perubahan setelah edit/hapus.
 - [ ] Semua query memakai `userId` dari sesi.
+- [ ] Validasi form transaksi ubah/hapus di Server Action memakai skema Zod; tidak ada library validasi tambahan.
 - [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan

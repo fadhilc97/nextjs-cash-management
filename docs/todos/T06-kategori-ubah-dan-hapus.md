@@ -14,6 +14,7 @@
 - Hapus kategori adalah hard delete. Tidak ada cascade ke transaksi dan tidak ada soft delete.
 - Nama kategori tidak disalin ke transaksi; rename harus langsung terlihat lewat relasi ID.
 - ID tidak valid, tidak ditemukan, atau milik user lain → `notFound()`, bukan 403.
+- Gunakan library `zod` (sudah ada di `dependencies`) untuk skema validasi ID dan nama kategori pada Server Action ubah/hapus. Skema wajib memakai copy §7.5, mengembalikan nilai input saat gagal, dan tidak menambah library validasi lain.
 
 ## Cakupan
 
@@ -23,8 +24,8 @@
   - hitung pemakaian kategori;
   - hapus hanya jika pemakaian nol.
 - Halaman `/categories/[id]/edit`: field nama, `h1` "Ubah Kategori", tombol "Simpan Perubahan" dan "Batal"; Batal kembali ke `/categories`.
-- Server Action ubah: validasi ID dan nama, `requireUser()`, revalidate Kategori/Dashboard/Transaksi, redirect `/categories?status=updated`.
-- Server Action hapus: ID dari hidden input, validasi integer positif, `requireUser()`, cek kepemilikan dan pemakaian; jika masih dipakai redirect `/categories?error=category-in-use`; jika sukses redirect `/categories?status=deleted`; map FK `23503` ke error yang sama.
+- Server Action ubah: validasi ID dan nama melalui skema Zod, `requireUser()`, revalidate Kategori/Dashboard/Transaksi, redirect `/categories?status=updated`.
+- Server Action hapus: ID dari hidden input, validasi integer positif melalui skema Zod, `requireUser()`, cek kepemilikan dan pemakaian; jika masih dipakai redirect `/categories?error=category-in-use`; jika sukses redirect `/categories?status=deleted`; map FK `23503` ke error yang sama.
 - Tambahkan aksi "Ubah" (tautan) dan "Hapus" (tombol) pada setiap baris/kartu kategori.
 - Dialog hapus punya dua keadaan:
   - tidak dipakai: judul "Hapus kategori?", isi menyebut nama kategori, tombol "Batal" dan "Hapus";
@@ -77,6 +78,7 @@
 - [ ] Server Action tetap memeriksa pemakaian/FK meski dipanggil langsung.
 - [ ] Dialog memenuhi A11Y-07 dan copy §7.4.3.
 - [ ] Semua query kategori memakai `userId` dari sesi.
+- [ ] Validasi form kategori ubah/hapus di Server Action memakai skema Zod; tidak ada library validasi tambahan.
 - [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan

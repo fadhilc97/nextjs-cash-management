@@ -13,6 +13,7 @@
 - Nama kategori hanya nama. Jangan menambah tipe, warna, ikon, budget, atau deskripsi.
 - Jangan membuat kategori default otomatis.
 - Gunakan service dari ticket ini untuk halaman; Server Action tetap tipis dan tidak memuat logika bisnis berat.
+- Gunakan library `zod` (sudah ada di `dependencies`) untuk skema validasi form tambah kategori di Server Action. Skema wajib memakai normalisasi dan copy §7.5, mengembalikan nilai input saat gagal, dan tidak menambah library validasi lain.
 
 ## Cakupan
 
@@ -20,7 +21,7 @@
   - daftar kategori milik user, diurutkan A–Z case-insensitive, dengan jumlah transaksi semua bulan dan semua jenis;
   - buat kategori dengan normalisasi trim + collapse whitespace;
   - cek duplikat case-insensitive dalam lingkup user, termasuk penanganan unique violation `23505`.
-- Server Action tambah kategori: `requireUser()`, validasi server dari T01, simpan, `revalidatePath` untuk Kategori dan Dashboard, redirect `/categories?status=created`.
+- Server Action tambah kategori: `requireUser()`, validasi server dari T01 melalui skema Zod, simpan, `revalidatePath` untuk Kategori dan Dashboard, redirect `/categories?status=created`.
 - Saat error: kembalikan `fieldErrors` dan nilai input agar tidak hilang; jangan redirect.
 - Halaman Kategori:
   - `h1` "Kategori" dan subjudul "Kelola kategori untuk mengelompokkan transaksi.";
@@ -71,6 +72,7 @@
 - [ ] Jumlah transaksi benar untuk semua bulan dan semua jenis, tanpa menghitung transaksi user lain.
 - [ ] Banner sukses, empty state, dan input yang dipertahankan saat error sesuai §7.4 dan §7.6.
 - [ ] Tidak ada kategori default otomatis dan tidak ada kolom di luar nama.
+- [ ] Validasi form kategori di Server Action memakai skema Zod; tidak ada library validasi tambahan.
 - [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
