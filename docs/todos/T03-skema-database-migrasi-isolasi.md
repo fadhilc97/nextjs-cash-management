@@ -4,7 +4,7 @@
 
 **Blocked by:** T02 (fixture test memakai akun Supabase Auth yang dibuat lewat signup/login).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -60,16 +60,16 @@
 
 ## Acceptance criteria
 
-- [ ] Schema sesuai §8.4; `usersTable` demo tidak lagi dipakai.
-- [ ] Migrasi dari nol menghasilkan tabel, enum, index, check, FK auth, dan RLS.
-- [ ] FK `user_id` memakai `ON DELETE CASCADE`; FK kategori memakai `NO ACTION`.
-- [ ] Dua user boleh punya nama kategori sama; duplikat case-insensitive dalam satu user ditolak.
-- [ ] Amount di luar 1..2 miliar ditolak database, bukan hanya UI.
-- [ ] Kategori terpakai tidak bisa dihapus di level database.
-- [ ] `pnpm test:db` lulus dan tidak pernah berjalan di produksi.
-- [ ] Tidak ada akun auth yang dihapus oleh test; hanya data kategori/transaksi yang dibersihkan.
-- [ ] Tidak ada rahasia, password, atau token di test, log, atau repository.
-- [ ] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Schema sesuai §8.4; `usersTable` demo tidak lagi dipakai.
+- [x] Migrasi dari nol menghasilkan tabel, enum, index, check, FK auth, dan RLS.
+- [x] FK `user_id` memakai `ON DELETE CASCADE`; FK kategori memakai `NO ACTION`.
+- [x] Dua user boleh punya nama kategori sama; duplikat case-insensitive dalam satu user ditolak.
+- [x] Amount di luar 1..2 miliar ditolak database, bukan hanya UI.
+- [x] Kategori terpakai tidak bisa dihapus di level database.
+- [x] `pnpm test:db` lulus dan tidak pernah berjalan di produksi.
+- [x] Tidak ada akun auth yang dihapus oleh test; hanya data kategori/transaksi yang dibersihkan.
+- [x] Tidak ada rahasia, password, atau token di test, log, atau repository.
+- [x] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 

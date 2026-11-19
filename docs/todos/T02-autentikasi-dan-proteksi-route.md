@@ -4,7 +4,7 @@
 
 **Blocked by:** T01 (helper validasi dan test runner).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -60,18 +60,18 @@
 
 ## Acceptance criteria
 
-- [ ] Signup valid membuat akun. Bila confirm email nonaktif: sesi aktif dan redirect `/`. Bila confirm email aktif: tampil pesan cek email tanpa error.
-- [ ] Email duplikat ditolak dengan copy §7.10.5; email dipertahankan, password dikosongkan, tidak ada akun ganda.
-- [ ] Signup tanpa user dan sesi tetap di `/signup`, menampilkan error konfigurasi, dan tidak membuat sesi setengah jadi.
-- [ ] Login valid redirect `/`; login gagal memakai pesan generik.
-- [ ] Logout menghapus sesi dan redirect `/login`; tombol menampilkan "Keluar…" saat pending.
-- [ ] Semua halaman selain `/login`/`/signup` memanggil `requireUser()` sendiri, bukan hanya mengandalkan proxy/layout.
-- [ ] Proxy mempertahankan cookie refresh saat redirect.
-- [ ] Tidak ada parameter `next`, open redirect, atau redirect dari input pengguna.
-- [ ] Password/token tidak muncul di URL, state client, log, atau pesan error.
-- [ ] Tidak ada nav aplikasi di halaman auth; `lang="id"`, metadata, dan token tema terpasang.
-- [ ] Validasi form auth di Server Action memakai skema Zod; tidak ada library validasi tambahan.
-- [ ] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Signup valid membuat akun. Bila confirm email nonaktif: sesi aktif dan redirect `/`. Bila confirm email aktif: tampil pesan cek email tanpa error.
+- [x] Email duplikat ditolak dengan copy §7.10.5; email dipertahankan, password dikosongkan, tidak ada akun ganda.
+- [x] Signup tanpa user dan sesi tetap di `/signup`, menampilkan error konfigurasi, dan tidak membuat sesi setengah jadi.
+- [x] Login valid redirect `/`; login gagal memakai pesan generik.
+- [x] Logout menghapus sesi dan redirect `/login`; tombol menampilkan "Keluar…" saat pending.
+- [x] Semua halaman selain `/login`/`/signup` memanggil `requireUser()` sendiri, bukan hanya mengandalkan proxy/layout.
+- [x] Proxy mempertahankan cookie refresh saat redirect.
+- [x] Tidak ada parameter `next`, open redirect, atau redirect dari input pengguna.
+- [x] Password/token tidak muncul di URL, state client, log, atau pesan error.
+- [x] Tidak ada nav aplikasi di halaman auth; `lang="id"`, metadata, dan token tema terpasang.
+- [x] Validasi form auth di Server Action memakai skema Zod; tidak ada library validasi tambahan.
+- [x] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 
