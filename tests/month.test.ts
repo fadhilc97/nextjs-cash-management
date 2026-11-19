@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatMonthLabel,
   isValidMonth,
+  monthFromDate,
   monthRange,
   shiftMonth,
 } from "@/lib/month";
@@ -44,5 +45,11 @@ describe("month helpers", () => {
 
   it("formats a month label without depending on the server timezone", () => {
     expect(formatMonthLabel("2026-11")).toBe("November 2026");
+  });
+
+  it("derives the month from a calendar date", () => {
+    expect(monthFromDate("2026-11-16")).toBe("2026-11");
+    expect(monthFromDate("2027-01-01")).toBe("2027-01");
+    expect(monthFromDate("2026-12-31")).toBe("2026-12");
   });
 });

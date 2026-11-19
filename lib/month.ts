@@ -1,3 +1,5 @@
+import { isValidDateString } from "@/lib/date";
+
 export interface MonthBounds {
   min?: string;
   max?: string;
@@ -91,4 +93,15 @@ export function formatMonthLabel(month: string): string {
   date.setUTCFullYear(parts.year, parts.month - 1, 1);
 
   return displayMonthFormatter.format(date);
+}
+
+/**
+ * Returns the `YYYY-MM` month that contains the given calendar date.
+ */
+export function monthFromDate(date: string): string {
+  if (!isValidDateString(date)) {
+    throw new RangeError(`Invalid date: ${date}`);
+  }
+
+  return date.slice(0, 7);
 }

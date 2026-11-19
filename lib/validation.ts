@@ -29,6 +29,26 @@ const MIN_DATE = "2000-01-01";
 const MAX_AMOUNT = 2_000_000_000;
 const MAX_DESCRIPTION_LENGTH = 200;
 
+export function normalizeTransactionDate(raw: string): string {
+  return (raw ?? "").trim();
+}
+
+export function normalizeTransactionDescription(raw: string): string {
+  return (raw ?? "").trim();
+}
+
+export function normalizeCategoryIdInput(raw: string): string {
+  return (raw ?? "").trim();
+}
+
+export function normalizeTransactionType(raw: string): string {
+  return (raw ?? "").trim();
+}
+
+export function normalizeAmountInput(raw: string): string {
+  return (raw ?? "").trim();
+}
+
 export interface ValidationSuccess<T> {
   success: true;
   data: T;
@@ -78,7 +98,7 @@ export function validateTransaction(
   };
   const errors: Record<string, string> = {};
 
-  const date = values.date.trim();
+  const date = normalizeTransactionDate(values.date);
   const today = options.today ?? todayInJakarta(options.now);
   if (!date) {
     errors.date = validationMessages.dateRequired;
@@ -90,14 +110,14 @@ export function validateTransaction(
     errors.date = validationMessages.dateInFuture;
   }
 
-  const description = values.description.trim();
+  const description = normalizeTransactionDescription(values.description);
   if (!description) {
     errors.description = validationMessages.descriptionRequired;
   } else if (description.length > MAX_DESCRIPTION_LENGTH) {
     errors.description = validationMessages.descriptionTooLong;
   }
 
-  const categoryIdRaw = values.categoryId.trim();
+  const categoryIdRaw = normalizeCategoryIdInput(values.categoryId);
   const categoryId = Number(categoryIdRaw);
   const validCategoryId =
     /^\d+$/.test(categoryIdRaw) &&
@@ -107,13 +127,13 @@ export function validateTransaction(
     errors.categoryId = validationMessages.categoryRequired;
   }
 
-  const type = values.type.trim();
+  const type = normalizeTransactionType(values.type);
   const validType = type === "income" || type === "expense";
   if (!validType) {
     errors.type = validationMessages.typeInvalid;
   }
 
-  const amountRaw = values.amount.trim();
+  const amountRaw = normalizeAmountInput(values.amount);
   const amount = amountRaw ? parseAmount(amountRaw) : null;
   if (!amountRaw) {
     errors.amount = validationMessages.amountRequired;
