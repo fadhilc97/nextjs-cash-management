@@ -4,7 +4,7 @@
 
 **Blocked by:** T07 (data transaksi, month picker, dan service transaksi).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -74,16 +74,16 @@
 
 ## Acceptance criteria
 
-- [ ] `/` menerima `?month=YYYY-MM`, default dan fallback memakai bulan berjalan Jakarta.
-- [ ] Tiga summary card menampilkan total yang sama dengan tabel dan baris Total.
-- [ ] Rekap hanya memuat kategori yang punya transaksi pada bulan itu, tepat satu baris per kategori.
-- [ ] Urutan `activity DESC`, tie-break nama A–Z.
-- [ ] Nilai absolut dipakai di kolom Pemasukan/Pengeluaran; Selisih memakai `+`/`-`.
-- [ ] Saldo negatif tampil jelas dan tidak crash.
-- [ ] Empty state membedakan "belum ada kategori" dan "bulan kosong".
-- [ ] Seluruh data hanya milik user aktif, termasuk query agregasi dan tautan bulan.
-- [ ] Tidak ada chart library, grafik, atau ringkasan tahunan.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] `/` menerima `?month=YYYY-MM`, default dan fallback memakai bulan berjalan Jakarta.
+- [x] Tiga summary card menampilkan total yang sama dengan tabel dan baris Total.
+- [x] Rekap hanya memuat kategori yang punya transaksi pada bulan itu, tepat satu baris per kategori.
+- [x] Urutan `activity DESC`, tie-break nama A–Z.
+- [x] Nilai absolut dipakai di kolom Pemasukan/Pengeluaran; Selisih memakai `+`/`-`.
+- [x] Saldo negatif tampil jelas dan tidak crash.
+- [x] Empty state membedakan "belum ada kategori" dan "bulan kosong".
+- [x] Seluruh data hanya milik user aktif, termasuk query agregasi dan tautan bulan.
+- [x] Tidak ada chart library, grafik, atau ringkasan tahunan.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 
