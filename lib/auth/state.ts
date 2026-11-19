@@ -1,4 +1,4 @@
-import type { AuthActionState, AuthField } from "@/utils/types/auth";
+import type { AuthActionState, AuthField } from "@/utils/types/auth.type";
 
 export const initialAuthState: AuthActionState = { status: "idle" };
 

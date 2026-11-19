@@ -9,7 +9,7 @@ import {
   createAuthErrorState,
   createAuthSuccessState,
 } from "@/lib/auth/state";
-import type { AuthActionState, AuthField } from "@/utils/types/auth";
+import type { AuthActionState, AuthField } from "@/utils/types/auth.type";
 import { validateLogin, validateSignUp } from "@/lib/validations/auth.validation";
 import { createClient } from "@/utils/supabase/server";
 

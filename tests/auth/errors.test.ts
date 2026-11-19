@@ -4,7 +4,7 @@ import {
   mapAuthError,
   resolveSignUpOutcome,
 } from "@/lib/auth/errors";
-import type { AuthErrorLike } from "@/utils/types/auth";
+import type { AuthErrorLike } from "@/utils/types/auth.type";
 
 describe("auth error mapping", () => {
   it.each<[AuthErrorLike, string]>([

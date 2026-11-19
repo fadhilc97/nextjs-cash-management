@@ -4,7 +4,7 @@
 
 **Blocked by:** T05 (service, halaman, dan form kategori).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -69,17 +69,17 @@
 
 ## Acceptance criteria
 
-- [ ] Halaman ubah kategori hanya berisi field nama, judul, simpan, dan batal.
-- [ ] `id` tidak valid/asing → 404; tidak ada crash atau kebocoran keberadaan data.
-- [ ] Duplikat saat ubah mengecualikan kategori itu sendiri; rename beda kapitalisasi diperbolehkan.
-- [ ] Rename langsung tercermin di semua tampilan yang memakai relasi kategori.
-- [ ] Hapus kategori kosong berhasil dan redirect `?status=deleted`.
-- [ ] Hapus kategori terpakai ditolak dengan jumlah transaksi dan redirect `?error=category-in-use`; tidak ada transaksi yang ikut terhapus.
-- [ ] Server Action tetap memeriksa pemakaian/FK meski dipanggil langsung.
-- [ ] Dialog memenuhi A11Y-07 dan copy §7.4.3.
-- [ ] Semua query kategori memakai `userId` dari sesi.
-- [ ] Validasi form kategori ubah/hapus di Server Action memakai skema Zod; tidak ada library validasi tambahan.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Halaman ubah kategori hanya berisi field nama, judul, simpan, dan batal.
+- [x] `id` tidak valid/asing → 404; tidak ada crash atau kebocoran keberadaan data.
+- [x] Duplikat saat ubah mengecualikan kategori itu sendiri; rename beda kapitalisasi diperbolehkan.
+- [x] Rename langsung tercermin di semua tampilan yang memakai relasi kategori.
+- [x] Hapus kategori kosong berhasil dan redirect `?status=deleted`.
+- [x] Hapus kategori terpakai ditolak dengan jumlah transaksi dan redirect `?error=category-in-use`; tidak ada transaksi yang ikut terhapus.
+- [x] Server Action tetap memeriksa pemakaian/FK meski dipanggil langsung.
+- [x] Dialog memenuhi A11Y-07 dan copy §7.4.3.
+- [x] Semua query kategori memakai `userId` dari sesi.
+- [x] Validasi form kategori ubah/hapus di Server Action memakai skema Zod; tidak ada library validasi tambahan.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 

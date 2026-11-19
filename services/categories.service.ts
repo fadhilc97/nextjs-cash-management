@@ -3,12 +3,7 @@ import { and, asc, eq, sql } from "drizzle-orm";
 import { db } from "@/services/drizzle.service";
 import { categories, transactions } from "@/db/schema";
 import { normalizeCategoryName } from "@/lib/validations/category.validation";
-
-export interface CategorySummary {
-  id: number;
-  name: string;
-  transactionCount: number;
-}
+import type { CategorySummary } from "@/utils/types/category.type";
 
 export class DuplicateCategoryNameError extends Error {
   constructor() {

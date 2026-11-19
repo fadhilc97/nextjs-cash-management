@@ -2,7 +2,7 @@ import type {
   AuthErrorLike,
   SignUpDataLike,
   SignUpOutcome,
-} from "@/utils/types/auth";
+} from "@/utils/types/auth.type";
 
 const RATE_LIMIT_CODES = new Set([
   "over_request_rate_limit",

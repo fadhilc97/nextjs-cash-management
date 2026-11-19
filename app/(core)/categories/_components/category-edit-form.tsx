@@ -8,10 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/field";
 import { Input } from "@/components/ui/input";
 
-import {
-  initialCategoryActionState,
-  type CategoryActionState,
-} from "../action-state";
+import type { CategoryActionState } from "@/utils/types/category.type";
+
+import { initialCategoryActionState } from "../action-state";
 
 interface CategoryEditFormProps {
   category: { id: number; name: string };

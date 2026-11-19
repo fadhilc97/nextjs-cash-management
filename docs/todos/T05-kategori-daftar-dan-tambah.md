@@ -4,7 +4,7 @@
 
 **Blocked by:** T03 (tabel dan test database), T04 (shell, banner, empty state, primitif UI).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -64,16 +64,16 @@
 
 ## Acceptance criteria
 
-- [ ] Form tambah kategori tampil inline dan dapat dipakai dengan keyboard.
-- [ ] Nama dinormalisasi trim + collapse whitespace dan dibatasi 1–50 karakter.
-- [ ] Duplikat case-insensitive dalam satu user ditolak dengan `Nama kategori sudah digunakan.`
-- [ ] Dua user berbeda boleh memakai nama kategori yang sama.
-- [ ] Daftar hanya berisi kategori user aktif dan diurutkan A–Z case-insensitive.
-- [ ] Jumlah transaksi benar untuk semua bulan dan semua jenis, tanpa menghitung transaksi user lain.
-- [ ] Banner sukses, empty state, dan input yang dipertahankan saat error sesuai §7.4 dan §7.6.
-- [ ] Tidak ada kategori default otomatis dan tidak ada kolom di luar nama.
-- [ ] Validasi form kategori di Server Action memakai skema Zod; tidak ada library validasi tambahan.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Form tambah kategori tampil inline dan dapat dipakai dengan keyboard.
+- [x] Nama dinormalisasi trim + collapse whitespace dan dibatasi 1–50 karakter.
+- [x] Duplikat case-insensitive dalam satu user ditolak dengan `Nama kategori sudah digunakan.`
+- [x] Dua user berbeda boleh memakai nama kategori yang sama.
+- [x] Daftar hanya berisi kategori user aktif dan diurutkan A–Z case-insensitive.
+- [x] Jumlah transaksi benar untuk semua bulan dan semua jenis, tanpa menghitung transaksi user lain.
+- [x] Banner sukses, empty state, dan input yang dipertahankan saat error sesuai §7.4 dan §7.6.
+- [x] Tidak ada kategori default otomatis dan tidak ada kolom di luar nama.
+- [x] Validasi form kategori di Server Action memakai skema Zod; tidak ada library validasi tambahan.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 

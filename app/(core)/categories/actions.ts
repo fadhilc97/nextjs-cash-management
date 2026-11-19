@@ -17,7 +17,7 @@ import {
   updateCategory as updateCategoryRecord,
 } from "@/services/categories.service";
 
-import type { CategoryActionState } from "./action-state";
+import type { CategoryActionState } from "@/utils/types/category.type";
 
 function getFormString(formData: FormData, key: string): string {
   const value = formData.get(key);

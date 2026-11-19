@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { initialAuthState } from "@/lib/auth/state";
-import type { AuthActionState } from "@/utils/types/auth";
+import type { AuthActionState } from "@/utils/types/auth.type";
 
 interface AuthFormProps {
   mode: "login" | "signup";

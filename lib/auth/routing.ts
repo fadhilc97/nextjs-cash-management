@@ -1,4 +1,4 @@
-import type { AuthRedirect } from "@/utils/types/auth";
+import type { AuthRedirect } from "@/utils/types/auth.type";
 
 /**
  * Returns the optimistic redirect for a request. It is intentionally pure so

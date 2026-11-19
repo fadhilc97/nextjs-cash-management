@@ -1,9 +1,4 @@
-export interface CategoryActionState {
-  status: "idle" | "error";
-  fieldErrors?: { name?: string };
-  formError?: string;
-  values?: { name?: string };
-}
+import type { CategoryActionState } from "@/utils/types/category.type";
 
 export const initialCategoryActionState: CategoryActionState = {
   status: "idle",

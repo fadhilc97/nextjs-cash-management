@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import type { AuthUser } from "@/utils/types/auth";
+import type { AuthUser } from "@/utils/types/auth.type";
 
 /**
  * Reads the authenticated user once per request. Authorization must use

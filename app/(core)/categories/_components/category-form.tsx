@@ -7,10 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import {
-  initialCategoryActionState,
-  type CategoryActionState,
-} from "../action-state";
+import type { CategoryActionState } from "@/utils/types/category.type";
+
+import { initialCategoryActionState } from "../action-state";
 
 interface CategoryFormProps {
   action: (
