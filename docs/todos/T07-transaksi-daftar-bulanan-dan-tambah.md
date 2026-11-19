@@ -4,7 +4,7 @@
 
 **Blocked by:** T03 (tabel), T04 (shell, banner, primitif UI), T05 (kategori dan service kategorinya).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -85,20 +85,20 @@
 
 ## Acceptance criteria
 
-- [ ] `/transactions` menerima `?month=YYYY-MM`, fallback ke bulan berjalan untuk nilai tidak valid.
-- [ ] Ringkasan jumlah transaksi dan kedua jenis empty state sesuai §7.3.1.
-- [ ] Daftar hanya berisi transaksi user aktif, urut `date DESC, created_at DESC`, tanpa pagination.
-- [ ] Tabel ≥768 px dan kartu mobile memuat informasi yang sama; tidak ada overflow.
-- [ ] Nominal, tanggal, badge jenis, dan teks panjang mengikuti §7.3 dan §7.7.
-- [ ] Form create memiliki 5 field sesuai urutan dan copy §7.3.2.
-- [ ] Tanggal default hari ini Jakarta; tanggal masa depan/sebelum 2000 ditolak server.
-- [ ] Kategori hanya milik user aktif, A–Z, dengan placeholder disabled; kategori asing ditolak server.
-- [ ] Nominal hanya digit, 1..2 miliar, dan ditolak server bila tidak valid.
-- [ ] Form mempertahankan nilai setelah error, mencegah double submit, dan menampilkan pending.
-- [ ] Sukses redirect ke bulan tanggal transaksi dengan `status=created`.
-- [ ] Tanpa kategori, form diganti callout dengan CTA ke Kategori.
-- [ ] Validasi form transaksi baru di Server Action memakai skema Zod; tidak ada library validasi tambahan.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] `/transactions` menerima `?month=YYYY-MM`, fallback ke bulan berjalan untuk nilai tidak valid.
+- [x] Ringkasan jumlah transaksi dan kedua jenis empty state sesuai §7.3.1.
+- [x] Daftar hanya berisi transaksi user aktif, urut `date DESC, created_at DESC`, tanpa pagination.
+- [x] Tabel ≥768 px dan kartu mobile memuat informasi yang sama; tidak ada overflow.
+- [x] Nominal, tanggal, badge jenis, dan teks panjang mengikuti §7.3 dan §7.7.
+- [x] Form create memiliki 5 field sesuai urutan dan copy §7.3.2.
+- [x] Tanggal default hari ini Jakarta; tanggal masa depan/sebelum 2000 ditolak server.
+- [x] Kategori hanya milik user aktif, A–Z, dengan placeholder disabled; kategori asing ditolak server.
+- [x] Nominal hanya digit, 1..2 miliar, dan ditolak server bila tidak valid.
+- [x] Form mempertahankan nilai setelah error, mencegah double submit, dan menampilkan pending.
+- [x] Sukses redirect ke bulan tanggal transaksi dengan `status=created`.
+- [x] Tanpa kategori, form diganti callout dengan CTA ke Kategori.
+- [x] Validasi form transaksi baru di Server Action memakai skema Zod; tidak ada library validasi tambahan.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 
