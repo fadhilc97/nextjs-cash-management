@@ -1,8 +1,19 @@
 import type { ReactNode } from "react";
+import { redirect } from "next/navigation";
 
 import { ThemeToggle } from "@/components/theme-toggle";
+import { getUser } from "@/lib/auth";
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
+export default async function AuthLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const user = await getUser();
+  if (user) {
+    redirect("/");
+  }
+
   return (
     <div className="flex min-h-svh flex-col bg-background text-foreground">
       <a

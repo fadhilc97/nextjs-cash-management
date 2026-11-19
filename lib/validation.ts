@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 import { parseAmount, type TransactionType } from "@/lib/currency";
 import { isValidDateString, todayInJakarta } from "@/lib/date";
 
@@ -18,6 +16,8 @@ export const validationMessages = {
   amountTooLarge: "Nominal maksimal Rp 2.000.000.000.",
   categoryNameRequired: "Nama kategori wajib diisi.",
   categoryNameTooLong: "Nama kategori maksimal 50 karakter.",
+  categoryNameDuplicate: "Nama kategori sudah digunakan.",
+  unexpected: "Terjadi kesalahan. Silakan coba lagi.",
   emailRequired: "Email wajib diisi.",
   emailInvalid: "Format email tidak valid.",
   passwordRequired: "Password wajib diisi.",
@@ -28,9 +28,6 @@ export const validationMessages = {
 const MIN_DATE = "2000-01-01";
 const MAX_AMOUNT = 2_000_000_000;
 const MAX_DESCRIPTION_LENGTH = 200;
-const MAX_CATEGORY_NAME_LENGTH = 50;
-const MIN_PASSWORD_LENGTH = 8;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export interface ValidationSuccess<T> {
   success: true;
@@ -141,143 +138,5 @@ export function validateTransaction(
       type: type as TransactionType,
       amount: amount as number,
     },
-  };
-}
-
-export function normalizeCategoryName(raw: string): string {
-  return raw.trim().replace(/\s+/g, " ");
-}
-
-export function validateCategoryName(
-  raw: string,
-): ValidationResult<{ name: string }> {
-  const name = normalizeCategoryName(raw ?? "");
-
-  if (!name) {
-    return {
-      success: false,
-      errors: { name: validationMessages.categoryNameRequired },
-      values: { name: raw ?? "" },
-    };
-  }
-
-  if (name.length > MAX_CATEGORY_NAME_LENGTH) {
-    return {
-      success: false,
-      errors: { name: validationMessages.categoryNameTooLong },
-      values: { name: raw ?? "" },
-    };
-  }
-
-  return { success: true, data: { name } };
-}
-
-export interface LoginInput {
-  email: string;
-  password: string;
-}
-
-export interface SignUpInput extends LoginInput {
-  confirmPassword: string;
-}
-
-interface AuthData {
-  email: string;
-  password: string;
-}
-
-const emailSchema = z
-  .string()
-  .trim()
-  .toLowerCase()
-  .min(1, validationMessages.emailRequired)
-  .regex(EMAIL_PATTERN, validationMessages.emailInvalid);
-
-const passwordSchema = z.string().superRefine((password, context) => {
-  if (password === "") {
-    context.addIssue({
-      code: "custom",
-      message: validationMessages.passwordRequired,
-    });
-  } else if (password.length < MIN_PASSWORD_LENGTH) {
-    context.addIssue({
-      code: "custom",
-      message: validationMessages.passwordTooShort,
-    });
-  }
-});
-
-export const loginSchema = z.object({
-  email: emailSchema,
-  password: passwordSchema,
-});
-
-export const signUpSchema = loginSchema
-  .extend({ confirmPassword: z.string() })
-  .superRefine((data, context) => {
-    if (data.confirmPassword !== data.password) {
-      context.addIssue({
-        code: "custom",
-        path: ["confirmPassword"],
-        message: validationMessages.confirmPasswordMismatch,
-      });
-    }
-  });
-
-function toFieldErrors(error: z.ZodError): Record<string, string> {
-  const errors: Record<string, string> = {};
-
-  for (const issue of error.issues) {
-    const field = issue.path[0];
-    if (typeof field === "string" && !errors[field]) {
-      errors[field] = issue.message;
-    }
-  }
-
-  return errors;
-}
-
-function normalizeEmail(email: string | undefined): string {
-  return (email ?? "").trim().toLowerCase();
-}
-
-export function validateLogin(input: LoginInput): ValidationResult<AuthData> {
-  const result = loginSchema.safeParse({
-    email: input.email ?? "",
-    password: input.password ?? "",
-  });
-
-  if (!result.success) {
-    return {
-      success: false,
-      errors: toFieldErrors(result.error),
-      values: { email: normalizeEmail(input.email) },
-    };
-  }
-
-  return {
-    success: true,
-    data: { email: result.data.email, password: result.data.password },
-  };
-}
-
-export function validateSignUp(input: SignUpInput): ValidationResult<AuthData> {
-  const result = signUpSchema.safeParse({
-    email: input.email ?? "",
-    password: input.password ?? "",
-    confirmPassword: input.confirmPassword ?? "",
-  });
-
-  if (!result.success) {
-    return {
-      success: false,
-      errors: toFieldErrors(result.error),
-      values: { email: normalizeEmail(input.email) },
-    };
-  }
-
-  return {
-    success: true,
-    data: { email: result.data.email, password: result.data.password },
   };
 }

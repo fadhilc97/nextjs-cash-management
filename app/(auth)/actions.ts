@@ -10,7 +10,7 @@ import {
   createAuthSuccessState,
 } from "@/lib/auth/state";
 import type { AuthActionState, AuthField } from "@/utils/types/auth";
-import { validateLogin, validateSignUp } from "@/lib/validation";
+import { validateLogin, validateSignUp } from "@/lib/validations/auth.validation";
 import { createClient } from "@/utils/supabase/server";
 
 function getFormString(formData: FormData, key: string): string {

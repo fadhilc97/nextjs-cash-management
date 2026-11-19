@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  normalizeCategoryName,
-  validateCategoryName,
   validateLogin,
   validateSignUp,
+} from "@/lib/validations/auth.validation";
+import {
+  normalizeCategoryName,
+  validateCategoryName,
+} from "@/lib/validations/category.validation";
+import {
   validateTransaction,
   type TransactionInput,
 } from "@/lib/validation";
