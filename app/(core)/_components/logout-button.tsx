@@ -3,8 +3,9 @@
 import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export function LogoutButton() {
+export function LogoutButton({ className }: { className?: string }) {
   const { pending } = useFormStatus();
 
   return (
@@ -12,7 +13,7 @@ export function LogoutButton() {
       type="submit"
       variant="outline"
       disabled={pending}
-      className="text-sm font-semibold"
+      className={cn("text-sm font-semibold", className)}
     >
       {pending ? "Keluar…" : "Keluar"}
     </Button>

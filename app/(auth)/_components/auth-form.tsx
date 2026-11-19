@@ -10,7 +10,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -60,15 +59,11 @@ export function AuthForm({ mode, action }: AuthFormProps) {
   const isSignup = mode === "signup";
 
   return (
-    <Card className="w-full max-w-[420px] gap-4 rounded-xl border border-border py-0 ring-0">
+    <Card className="w-full max-w-[420px] gap-4 rounded-lg border border-border py-0 ">
       <CardHeader className="gap-2 px-6 pt-6 sm:px-8 sm:pt-8">
-        <CardTitle
-          role="heading"
-          aria-level={1}
-          className="text-2xl font-bold tracking-tight sm:text-3xl"
-        >
+        <h1 className="font-heading text-2xl leading-8 font-bold tracking-[-0.02em] sm:text-[30px] sm:leading-9">
           {copy.title}
-        </CardTitle>
+        </h1>
         <CardDescription className="text-sm leading-5">
           {copy.subtitle}
         </CardDescription>

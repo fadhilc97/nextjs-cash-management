@@ -4,7 +4,7 @@
 
 **Blocked by:** T02 (sesi, email pengguna, dan halaman auth).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -64,17 +64,17 @@
 
 ## Acceptance criteria
 
-- [ ] AppShell mengikuti §6.2 dan hanya dipakai halaman `(core)` yang sudah login.
-- [ ] Tidak ada horizontal scroll pada 375, 768, 1024, dan 1440 px.
-- [ ] Email tampil di tablet/desktop, terpotong dengan ellipsis, dan tidak bisa diedit; tidak tampil di top bar mobile.
-- [ ] Keluar tersedia di semua breakpoint dan redirect `/login`.
-- [ ] Theme toggle tersimpan, tanpa flash, dan tersedia di halaman auth serta halaman inti.
-- [ ] Nav aktif memakai `aria-current="page"` dan bukan hanya warna.
-- [ ] Skip link berfungsi dan `main` memiliki `id="main-content"`.
-- [ ] Banner status/error, loading, error, dan 404 sesuai copy PRD.
-- [ ] Primitif UI memakai shadcn/ui; tidak ada package ikon/state/UI tambahan.
-- [ ] Halaman demo `users` sudah hilang.
-- [ ] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] AppShell mengikuti §6.2 dan hanya dipakai halaman `(core)` yang sudah login.
+- [x] Tidak ada horizontal scroll pada 375, 768, 1024, dan 1440 px.
+- [x] Email tampil di tablet/desktop, terpotong dengan ellipsis, dan tidak bisa diedit; tidak tampil di top bar mobile.
+- [x] Keluar tersedia di semua breakpoint dan redirect `/login`.
+- [x] Theme toggle tersimpan, tanpa flash, dan tersedia di halaman auth serta halaman inti.
+- [x] Nav aktif memakai `aria-current="page"` dan bukan hanya warna.
+- [x] Skip link berfungsi dan `main` memiliki `id="main-content"`.
+- [x] Banner status/error, loading, error, dan 404 sesuai copy PRD.
+- [x] Primitif UI memakai shadcn/ui; tidak ada package ikon/state/UI tambahan.
+- [x] Halaman demo `users` sudah hilang.
+- [x] `pnpm test`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 

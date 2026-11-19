@@ -731,7 +731,7 @@ Ikon memakai inline SVG sederhana: stroke 1.75–2, ukuran render 18–20px untu
 ### Navigasi
 
 - Sidebar desktop 240px, padding 16px, item 44px, radius 8px, gap 12px. Wordmark `cash.` 18/24 weight 700 (placeholder visual; nama produk di metadata tetap `Cash Management`).
-- Item aktif: `--sidebar-accent`, teks `--foreground` weight 600, ikon cobalt, border kiri 1px cobalt, dan `aria-current="page"`. Border kiri selalu 1px (transparan saat tidak aktif) agar layout tidak bergeser. Tidak ada stripe lebih dari 1px.
+- Item aktif: `--sidebar-accent`, teks `--foreground` weight 600, ikon cobalt, dan `aria-current="page"`. Tidak ada border atau stripe kiri; status aktif dibedakan lewat latar, bobot teks, dan warna ikon.
 - Top header tablet 64px, sticky, latar solid, border bawah 1px. Nav horizontal 44px, item aktif cobalt weight 600 dengan underline 1px.
 - Bottom nav mobile 64px + safe-area, tiga item, ikon 20px, label 11px. Item aktif cobalt weight 600 dengan indikator 1px di atas ikon. Jangan menyembunyikan label.
 - Tidak ada search, command palette, avatar, notifikasi, atau menu profil.
