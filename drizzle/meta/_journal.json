@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795058963891,
+      "tag": "0000_mean_cassandra_nova",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795058981573,
+      "tag": "0001_auth_user_foreign_keys",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795058989112,
+      "tag": "0002_enable_rls",
+      "breakpoints": true
+    }
+  ]
+}
