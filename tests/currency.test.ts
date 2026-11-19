@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   formatRupiah,
+  formatSignedAmount,
   formatSignedRupiah,
   parseAmount,
 } from "@/lib/currency";
@@ -24,6 +25,14 @@ describe("currency helpers", () => {
     expect(normalizeSpaces(formatSignedRupiah(150000, "expense"))).toBe(
       "-Rp 150.000",
     );
+  });
+
+  it("formats signed values by their numeric sign", () => {
+    expect(normalizeSpaces(formatSignedAmount(8_800_000))).toBe(
+      "+Rp 8.800.000",
+    );
+    expect(normalizeSpaces(formatSignedAmount(-180_000))).toBe("-Rp 180.000");
+    expect(normalizeSpaces(formatSignedAmount(0))).toBe("+Rp 0");
   });
 
   it("parses digit-only amounts after trimming", () => {

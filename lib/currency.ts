@@ -20,6 +20,16 @@ export function formatSignedRupiah(
 }
 
 /**
+ * Formats a computed value (for example a net or balance) with an explicit
+ * numeric sign. Zero is rendered as `+Rp 0` so the Selisih column always has a
+ * visible sign.
+ */
+export function formatSignedAmount(amount: number): string {
+  const sign = amount >= 0 ? "+" : "-";
+  return `${sign}${rupiahFormatter.format(Math.abs(amount))}`;
+}
+
+/**
  * Parses a digit-only amount. Invalid input returns null; range limits are the
  * responsibility of validation.
  */

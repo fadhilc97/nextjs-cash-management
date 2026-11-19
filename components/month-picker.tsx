@@ -113,7 +113,7 @@ export function MonthPicker({ month, maxMonth }: MonthPickerProps) {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 transition-opacity duration-150",
+        "flex items-center gap-2 transition-opacity duration-150 max-[1024px]:justify-center",
         pending && "opacity-60",
       )}
       aria-busy={pending}

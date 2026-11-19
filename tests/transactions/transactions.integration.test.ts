@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 
 import { transactions } from "@/db/schema";
@@ -235,7 +235,10 @@ describe("transactions service", () => {
       }),
     ).rejects.toThrow("Kategori tidak ditemukan. Muat ulang halaman.");
 
-    const rows = await context.db.select().from(transactions);
+    const rows = await context.db
+      .select()
+      .from(transactions)
+      .where(inArray(transactions.userId, userIds));
     expect(rows).toHaveLength(0);
   });
 
