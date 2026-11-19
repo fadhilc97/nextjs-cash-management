@@ -1,8 +1,25 @@
-import type { NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+
+import { getAuthRedirect } from "@/lib/auth/routing";
 import { updateSession } from "@/utils/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
-  const { response } = await updateSession(request);
+  const { response, user } = await updateSession(request);
+  const redirectTo = getAuthRedirect(request.nextUrl.pathname, Boolean(user));
+
+  if (redirectTo) {
+    const url = request.nextUrl.clone();
+    url.pathname = redirectTo;
+    url.search = "";
+
+    const redirectResponse = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie);
+    });
+
+    return redirectResponse;
+  }
+
   return response;
 }
 

@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import { parseAmount, type TransactionType } from "@/lib/currency";
 import { isValidDateString, todayInJakarta } from "@/lib/date";
 
@@ -184,55 +186,98 @@ interface AuthData {
   password: string;
 }
 
-function validateCredentials(input: LoginInput): {
-  email: string;
-  errors: Record<string, string>;
-} {
-  const email = (input.email ?? "").trim().toLowerCase();
-  const password = input.password ?? "";
+const emailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .min(1, validationMessages.emailRequired)
+  .regex(EMAIL_PATTERN, validationMessages.emailInvalid);
+
+const passwordSchema = z.string().superRefine((password, context) => {
+  if (password === "") {
+    context.addIssue({
+      code: "custom",
+      message: validationMessages.passwordRequired,
+    });
+  } else if (password.length < MIN_PASSWORD_LENGTH) {
+    context.addIssue({
+      code: "custom",
+      message: validationMessages.passwordTooShort,
+    });
+  }
+});
+
+export const loginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+export const signUpSchema = loginSchema
+  .extend({ confirmPassword: z.string() })
+  .superRefine((data, context) => {
+    if (data.confirmPassword !== data.password) {
+      context.addIssue({
+        code: "custom",
+        path: ["confirmPassword"],
+        message: validationMessages.confirmPasswordMismatch,
+      });
+    }
+  });
+
+function toFieldErrors(error: z.ZodError): Record<string, string> {
   const errors: Record<string, string> = {};
 
-  if (!email) {
-    errors.email = validationMessages.emailRequired;
-  } else if (!EMAIL_PATTERN.test(email)) {
-    errors.email = validationMessages.emailInvalid;
+  for (const issue of error.issues) {
+    const field = issue.path[0];
+    if (typeof field === "string" && !errors[field]) {
+      errors[field] = issue.message;
+    }
   }
 
-  if (password === "") {
-    errors.password = validationMessages.passwordRequired;
-  } else if (password.length < MIN_PASSWORD_LENGTH) {
-    errors.password = validationMessages.passwordTooShort;
-  }
+  return errors;
+}
 
-  return { email, errors };
+function normalizeEmail(email: string | undefined): string {
+  return (email ?? "").trim().toLowerCase();
 }
 
 export function validateLogin(input: LoginInput): ValidationResult<AuthData> {
-  const { email, errors } = validateCredentials(input);
+  const result = loginSchema.safeParse({
+    email: input.email ?? "",
+    password: input.password ?? "",
+  });
 
-  if (Object.keys(errors).length > 0) {
-    return { success: false, errors, values: { email } };
+  if (!result.success) {
+    return {
+      success: false,
+      errors: toFieldErrors(result.error),
+      values: { email: normalizeEmail(input.email) },
+    };
   }
 
   return {
     success: true,
-    data: { email, password: input.password },
+    data: { email: result.data.email, password: result.data.password },
   };
 }
 
 export function validateSignUp(input: SignUpInput): ValidationResult<AuthData> {
-  const { email, errors } = validateCredentials(input);
+  const result = signUpSchema.safeParse({
+    email: input.email ?? "",
+    password: input.password ?? "",
+    confirmPassword: input.confirmPassword ?? "",
+  });
 
-  if (input.confirmPassword !== input.password) {
-    errors.confirmPassword = validationMessages.confirmPasswordMismatch;
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return { success: false, errors, values: { email } };
+  if (!result.success) {
+    return {
+      success: false,
+      errors: toFieldErrors(result.error),
+      values: { email: normalizeEmail(input.email) },
+    };
   }
 
   return {
     success: true,
-    data: { email, password: input.password },
+    data: { email: result.data.email, password: result.data.password },
   };
 }

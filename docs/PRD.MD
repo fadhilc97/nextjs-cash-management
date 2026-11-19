@@ -180,7 +180,7 @@ Keputusan berikut sudah final untuk v1. Jangan mengubahnya tanpa persetujuan Pro
 
 | Fitur | Prioritas | Ringkasan |
 |---|---|---|
-| Buat akun (signup) | P0 | Email + password + konfirmasi; sukses langsung redirect ke dashboard |
+| Buat akun (signup) | P0 | Email + password + konfirmasi; sukses redirect ke dashboard bila confirm email nonaktif, atau tampilkan instruksi konfirmasi bila aktif |
 | Masuk (login) | P0 | Email + password; error generik untuk kredensial salah |
 | Keluar (logout) | P0 | Server Action; redirect ke `/login` |
 | Proteksi route | P0 | Semua halaman inti wajib sesi; halaman auth tidak boleh diakses saat login |
@@ -918,10 +918,10 @@ Target minimum: WCAG 2.1 AA untuk alur utama.
 - Signup, login, dan logout dijalankan lewat **Server Actions** menggunakan `@supabase/ssr` dan `utils/supabase/server.ts`.
 - Sesi disimpan di cookie oleh `@supabase/ssr`; `proxy.ts` menyegarkan sesi pada setiap request.
 - Otorisasi memakai `supabase.auth.getUser()` di server, **bukan** `getSession()`.
-- Email confirmation **dimatikan** di dashboard Supabase untuk v1 agar `signUp()` langsung mengembalikan sesi aktif dan pengguna bisa diarahkan ke `/` (lihat §9.6).
+- Email confirmation boleh aktif atau nonaktif. Bila nonaktif, `signUp()` langsung mengembalikan sesi dan pengguna diarahkan ke `/`. Bila aktif, user dibuat tanpa sesi dan form menampilkan instruksi untuk mengonfirmasi email, lalu pengguna masuk lewat `/login` (lihat §9.6).
 - Setelah login/signup sukses, redirect selalu ke `/`. Tidak ada parameter `next`.
 - Form auth memakai `noValidate` agar browser tidak menampilkan pesan validasi bawaan; semua error yang terlihat berasal dari validasi server dan memakai copy Indonesia.
-- Tidak ada reset password, verifikasi email, magic link, OAuth, atau MFA di v1.
+- Tidak ada reset password, magic link, OAuth, atau MFA di v1. Verifikasi email mengikuti konfigurasi Supabase Auth.
 
 #### 7.10.1 Buat Akun — `/signup`
 
@@ -931,9 +931,9 @@ Target minimum: WCAG 2.1 AA untuk alur utama.
 | AUTH-02 | Form memiliki field berurutan: Email, Password, Konfirmasi Password. | Urutan visual dan urutan tab sama; semua field wajib. |
 | AUTH-03 | Email wajib, format valid, di-`trim()` dan di-lowercase sebelum dikirim ke Supabase. | `" Rina@Example.com "` menjadi `rina@example.com`. |
 | AUTH-04 | Password wajib minimal 8 karakter. Password **tidak** di-trim dan tidak diubah kapitalisasinya. Konfirmasi password harus sama persis. | Password dengan spasi tetap diterima; konfirmasi berbeda ditolak. |
-| AUTH-05 | Signup memanggil `supabase.auth.signUp({ email, password })` di server. Bila sesi langsung aktif, redirect ke `/`. | Akun baru langsung masuk ke dashboard tanpa langkah tambahan. |
+| AUTH-05 | Signup memanggil `supabase.auth.signUp({ email, password })` di server. Bila sesi langsung aktif, redirect ke `/`. Bila user dibuat tanpa sesi (email confirmation aktif), tampilkan pesan sukses dan minta pengguna memeriksa email. | Dengan confirm email nonaktif, akun baru langsung masuk ke dashboard. Dengan confirm email aktif, akun dibuat, pesan konfirmasi tampil, dan pengguna dapat login setelah mengonfirmasi. |
 | AUTH-06 | Bila email sudah terdaftar, tampilkan error field pada Email dan pertahankan nilai email. Password dan konfirmasi dikosongkan. | Error "Email sudah terdaftar. Silakan masuk."; tidak ada akun ganda. |
-| AUTH-07 | Bila `signUp()` tidak mengembalikan sesi (mis. email confirmation tidak sengaja diaktifkan), jangan redirect dan jangan mengklaim sukses. Tampilkan error form-level generik dan log peringatan konfigurasi. | Pengguna tetap di `/signup`; tidak ada sesi setengah jadi. |
+| AUTH-07 | Bila `signUp()` mengembalikan user tanpa sesi, jangan redirect. Tampilkan status sukses `Akun berhasil dibuat. Cek email Anda untuk mengonfirmasi, lalu masuk.` Bila user dan sesi sama-sama kosong, tampilkan error form-level generik dan log peringatan konfigurasi. | Pengguna tetap di `/signup`; dengan email confirmation aktif terlihat instruksi konfirmasi; tidak ada sesi setengah jadi. |
 | AUTH-08 | Tombol submit "Buat Akun" disabled selama pending dan teks berubah "Memproses…". | Double submit tidak membuat dua akun. |
 | AUTH-09 | Form memakai `autoComplete="email"`, `autoComplete="new-password"` untuk kedua field password, serta `inputMode="email"`. | Browser/password manager mengenali field dengan benar. |
 | AUTH-10 | Password, konfirmasi password, token, dan cookie tidak boleh muncul di URL, log, pesan error, `values`, atau response action; password hanya dikirim di body form. | Tidak ada password di URL, console, atau response action; produksi wajib memakai HTTPS. |
@@ -988,14 +988,15 @@ Jangan menampilkan pesan mentah Supabase. Map ke copy berikut:
 | `invalid_credentials` | `Email atau password salah.` |
 | `user_already_exists`, `email_exists` | `Email sudah terdaftar. Silakan masuk.` |
 | Rate limit / HTTP 429 / `over_request_rate_limit` / `over_email_send_rate_limit` | `Terlalu banyak percobaan. Coba lagi beberapa saat lagi.` |
-| `email_not_confirmed` | `Email belum dikonfirmasi. Silakan hubungi administrator.` (log peringatan konfigurasi) |
+| `email_not_confirmed` | `Email belum dikonfirmasi. Cek email Anda untuk tautan konfirmasi.` |
 | `signup_disabled` | `Pendaftaran akun sedang tidak tersedia. Silakan coba lagi nanti.` |
-| Sesi signup kosong padahal user dibuat | `Pendaftaran belum dapat diselesaikan. Silakan coba lagi.` (log peringatan konfigurasi) |
+| Sesi signup kosong padahal user dibuat | `Akun berhasil dibuat. Cek email Anda untuk mengonfirmasi, lalu masuk.` (status sukses, bukan error) |
+| User dan sesi signup sama-sama kosong | `Pendaftaran belum dapat diselesaikan. Silakan coba lagi.` (log peringatan konfigurasi) |
 | Error tak terduga | `Terjadi kesalahan. Silakan coba lagi.` |
 
 **Aturan tambahan:**
 
-- Error field ditampilkan inline di bawah field; error form-level di atas tombol submit dengan `role="alert"`.
+- Error field ditampilkan inline di bawah field; error form-level memakai `role="alert"`, sedangkan pesan konfirmasi signup memakai `role="status"`.
 - Jangan mengosongkan email setelah error; jangan pernah mengembalikan password ke client.
 - Log server hanya boleh memuat kode error dan pesan aman; jangan log `FormData`, password, token, atau cookie.
 - Supabase menangani rate limit dan hashing password; aplikasi tidak menyimpan hash sendiri.
@@ -1298,7 +1299,7 @@ Langkah implementasi:
 6. Jalankan `pnpm db:migrate` pada database development.
 7. Konfigurasi Supabase Auth di dashboard:
    - Authentication → Providers → **Email**: aktifkan.
-   - **Confirm email**: nonaktifkan untuk v1 (signup harus langsung menghasilkan sesi).
+   - **Confirm email**: boleh aktif atau nonaktif. Nonaktif membuat signup langsung mendapat sesi; aktif mengirim tautan konfirmasi dan signup menampilkan instruksi cek email.
    - **Minimum password length**: `8`.
    - **Allow new users to sign up**: aktifkan.
    - Site URL: `http://localhost:3000` untuk development.
@@ -1582,7 +1583,7 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 - Jangan commit `.env` atau kredensial asli.
 - Konfigurasi Supabase Auth yang wajib (detail di §8.8):
   - Provider Email aktif, signup diizinkan.
-  - **Confirm email nonaktif** untuk v1 agar signup langsung mendapat sesi.
+  - **Confirm email** boleh aktif atau nonaktif; aplikasi mendukung kedua alur.
   - Minimum password length `8`.
   - Site URL development `http://localhost:3000`.
 - Perbarui `README.md` dengan: cara install, cara mengisi env, konfigurasi Supabase Auth, `pnpm db:generate`, `pnpm db:migrate`, `pnpm dev`, langkah signup/login, dan catatan bahwa setiap akun hanya melihat datanya sendiri.
@@ -1805,7 +1806,7 @@ Kerjakan berurutan. Jangan lanjut ke fase berikutnya sebelum exit criteria fase 
 - Perbarui `db/schema.ts` sesuai §8.4 (`user_id`, index per user, unique per user).
 - Tambahkan script db ke `package.json`.
 - Generate dan review migrasi; tambahkan migrasi kustom FK ke `auth.users` dan RLS (§8.8).
-- Konfigurasi Supabase Auth: provider Email aktif, confirm email nonaktif, minimum password 8.
+- Konfigurasi Supabase Auth: provider Email aktif, minimum password 8; confirm email boleh aktif atau nonaktif.
 - Buat `lib/auth.ts` (`getUser`, `requireUser`), `lib/date.ts`, `lib/month.ts`, `lib/currency.ts`, `lib/validation.ts`.
 - Buat service kategori, transaksi, dan dashboard dengan parameter `userId` sebagai argumen wajib.
 - Pastikan `db`, `services`, dan `lib/auth.ts` tidak pernah diimpor ke Client Component.
@@ -1954,7 +1955,7 @@ Jalankan di environment development dengan database bersih. Catat hasil dan scre
 
 | ID | Skenario | Langkah ringkas | Hasil yang diharapkan |
 |---|---|---|---|
-| QA-AUTH-01 | Signup valid | `/signup` → email baru, password 8+ karakter, konfirmasi sama → "Buat Akun" | Redirect ke `/`; sesi aktif; dashboard akun baru tanpa kategori; email tampil di shell |
+| QA-AUTH-01 | Signup valid | `/signup` → email baru, password 8+ karakter, konfirmasi sama → "Buat Akun" | Confirm email nonaktif: redirect `/`, sesi aktif, dashboard tampil. Confirm email aktif: pesan `Akun berhasil dibuat. Cek email Anda untuk mengonfirmasi, lalu masuk.` tanpa error dan tanpa redirect |
 | QA-AUTH-02 | Signup email duplikat | Signup ulang dengan email yang sama | Ditolak; "Email sudah terdaftar. Silakan masuk."; email dipertahankan; password kosong; tidak ada user ganda |
 | QA-AUTH-03 | Validasi signup | Submit kosong, email salah format, password 7 karakter, konfirmasi berbeda | Error inline sesuai §7.5; tidak ada akun dibuat; tidak ada password yang dikembalikan |
 | QA-AUTH-04 | Login valid | Logout, lalu `/login` dengan akun yang sama | Redirect `/`; data milik akun tersebut tampil |
@@ -1966,7 +1967,7 @@ Jalankan di environment development dengan database bersih. Catat hasil dan scre
 | QA-AUTH-10 | Isolasi dua akun | Buat User A dan User B; masing-masing buat kategori/transaksi; buka URL edit milik akun lain | A tidak melihat data B; ID B → 404; opsi kategori B tidak muncul di form A |
 | QA-AUTH-11 | Normalisasi email | Signup dengan `" Rina@Example.com "`, lalu login dengan `rina@example.com` | Berhasil; email ditampilkan lowercase tanpa spasi |
 | QA-AUTH-12 | Tidak ada kebocoran password | Periksa URL, console browser, log server, dan response action setelah error | Password tidak muncul di mana pun; tidak ada token/cookie yang di-log |
-| QA-AUTH-13 | Konfigurasi signup | Signup akun baru tanpa membuka email | Tidak ada email konfirmasi yang dikirim; sesi langsung aktif; redirect `/` |
+| QA-AUTH-13 | Konfigurasi signup | Signup akun baru tanpa membuka email, dengan confirm email nonaktif dan aktif | Nonaktif: tidak ada email konfirmasi, sesi langsung aktif, redirect `/`. Aktif: email konfirmasi terkirim, pesan cek email tampil, login berhasil setelah konfirmasi |
 | QA-AUTH-14 | Manipulasi kategori | Kirim `categoryId` milik user lain lewat form tambah transaksi | Ditolak "Kategori tidak ditemukan. Muat ulang halaman."; tidak ada transaksi tersimpan |
 
 #### 12.1.2 Fitur Keuangan
