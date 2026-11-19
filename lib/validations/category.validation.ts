@@ -21,6 +21,13 @@ export const categoryNameSchema = z
       .max(MAX_CATEGORY_NAME_LENGTH, validationMessages.categoryNameTooLong),
   );
 
+export const categoryIdSchema = z
+  .string()
+  .trim()
+  .regex(/^\d+$/)
+  .transform((value) => Number(value))
+  .pipe(z.number().int().positive().max(2_147_483_647));
+
 export function validateCategoryName(
   raw: string,
 ): ValidationResult<{ name: string }> {

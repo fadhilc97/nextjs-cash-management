@@ -128,16 +128,27 @@ export async function expectDatabaseErrorCode(
   await expectErrorCode(operation, code);
 }
 
+function hasErrorCode(error: unknown, code: string): boolean {
+  if (typeof error !== "object" || error === null) {
+    return false;
+  }
+
+  if ("code" in error && error.code === code) {
+    return true;
+  }
+
+  if ("cause" in error && error.cause !== error) {
+    return hasErrorCode(error.cause, code);
+  }
+
+  return false;
+}
+
 async function expectErrorCode(operation: Promise<unknown>, code: string) {
   try {
     await operation;
   } catch (error) {
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "code" in error &&
-      error.code === code
-    ) {
+    if (hasErrorCode(error, code)) {
       return;
     }
 

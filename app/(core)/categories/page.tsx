@@ -14,6 +14,7 @@ import { requireUser } from "@/lib/auth";
 import { listCategories } from "@/services/categories.service";
 
 import { createCategory } from "./actions";
+import { CategoryActions } from "./_components/category-actions";
 import { CategoryForm } from "./_components/category-form";
 
 export const metadata: Metadata = {
@@ -65,6 +66,9 @@ export default async function CategoriesPage({
                   <TableHead className="h-11 px-4 text-right text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
                     Jumlah transaksi
                   </TableHead>
+                  <TableHead className="h-11 px-4 text-right text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
+                    Aksi
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -78,6 +82,9 @@ export default async function CategoriesPage({
                     </TableCell>
                     <TableCell className="px-4 py-3 text-right text-base leading-6 font-medium tabular-nums">
                       {category.transactionCount}
+                    </TableCell>
+                    <TableCell className="px-4 py-2">
+                      <CategoryActions category={category} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -100,6 +107,9 @@ export default async function CategoriesPage({
                     {category.transactionCount}
                   </span>
                 </p>
+                <div className="mt-3 border-t border-divider pt-3">
+                  <CategoryActions category={category} />
+                </div>
               </div>
             ))}
           </div>
