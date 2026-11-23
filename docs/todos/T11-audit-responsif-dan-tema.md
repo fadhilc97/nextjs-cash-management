@@ -4,7 +4,7 @@
 
 **Blocked by:** T06, T08, T09 (semua halaman, form, dan dialog sudah ada).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -35,30 +35,50 @@
 
 Jalankan checklist §12.2 untuk setiap viewport:
 
-- [ ] Tidak ada horizontal scroll (`scrollWidth > innerWidth`).
-- [ ] Semua field dapat diisi tanpa zoom di iOS.
-- [ ] Bottom nav tidak menutupi tombol terakhir (safe-area).
-- [ ] Dialog tidak keluar viewport dan tetap dapat ditutup.
-- [ ] Uraian/kategori panjang tidak memotong layout.
-- [ ] Tombol aksi minimal 44×44 px.
-- [ ] Tidak ada elemen yang hanya muncul saat hover.
-- [ ] Form auth muat penuh di 375 px dan tombol submit full-width.
-- [ ] Email pengguna tidak menimpa tombol Keluar atau theme toggle.
-- [ ] Tabel berubah menjadi kartu di bawah 768 px; tidak ada kolom yang hilang.
-- [ ] Light dan dark mode diuji di semua halaman; toggle bertahan setelah refresh; tidak ada flash/hydration warning.
-- [ ] Tidak ada error/warning console saat berpindah halaman atau membuka dialog.
+- [x] Tidak ada horizontal scroll (`scrollWidth > innerWidth`).
+- [x] Semua field dapat diisi tanpa zoom di iOS.
+- [x] Bottom nav tidak menutupi tombol terakhir (safe-area).
+- [x] Dialog tidak keluar viewport dan tetap dapat ditutup.
+- [x] Uraian/kategori panjang tidak memotong layout.
+- [x] Tombol aksi minimal 44×44 px.
+- [x] Tidak ada elemen yang hanya muncul saat hover.
+- [x] Form auth muat penuh di 375 px dan tombol submit full-width.
+- [x] Email pengguna tidak menimpa tombol Keluar atau theme toggle.
+- [x] Tabel berubah menjadi kartu di bawah 768 px; tidak ada kolom yang hilang.
+- [x] Light dan dark mode diuji di semua halaman; toggle bertahan setelah refresh; tidak ada flash/hydration warning.
+- [x] Tidak ada error/warning console saat berpindah halaman atau membuka dialog.
 
 ## Acceptance criteria
 
-- [ ] Matrix 375/768/1024/1440 px lulus untuk seluruh halaman dan state.
-- [ ] Tidak ada horizontal scroll di semua kombinasi halaman/viewport/state.
-- [ ] Navigasi, konten, dan bottom nav tidak saling menutupi; safe-area diterapkan.
-- [ ] Tabel/kartu, dialog, form, dan halaman auth mengikuti §7.8 dan §12.2.
-- [ ] Light dan dark mode konsisten, tanpa flash, dan memenuhi kontras.
-- [ ] Target sentuh dan ukuran font input memenuhi aturan mobile.
-- [ ] Tidak ada error/warning console atau hydration mismatch.
-- [ ] Perbaikan logika memiliki test regresi; tidak ada dependensi baru.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Matrix 375/768/1024/1440 px lulus untuk seluruh halaman dan state.
+- [x] Tidak ada horizontal scroll di semua kombinasi halaman/viewport/state.
+- [x] Navigasi, konten, dan bottom nav tidak saling menutupi; safe-area diterapkan.
+- [x] Tabel/kartu, dialog, form, dan halaman auth mengikuti §7.8 dan §12.2.
+- [x] Light dan dark mode konsisten, tanpa flash, dan memenuhi kontras.
+- [x] Target sentuh dan ukuran font input memenuhi aturan mobile.
+- [x] Tidak ada error/warning console atau hydration mismatch.
+- [x] Perbaikan logika memiliki test regresi; tidak ada dependensi baru.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+
+## Hasil audit
+
+Perbaikan yang diterapkan:
+
+- `app/(core)/categories/_components/category-edit-form.tsx`: tombol aksi full-width di mobile dan inline di kanan pada `md`, selaras dengan form transaksi.
+- `components/ui/dialog.tsx`: `max-h-[calc(100dvh-32px)]` + `overflow-y-auto` agar dialog tetap utuh di viewport pendek/landscape.
+- `components/month-picker.tsx`: `flex-wrap` dan `min-w-0` pada select agar tidak meluber di 320 px/zoom 200%; perataan tablet tidak berubah.
+- `components/ui/button.tsx`: varian `outline` memakai `--card` + `--input` dan hover `--accent` sesuai DESIGN.md.
+
+Verifikasi manual:
+
+- 375×812, 812×375, 768×1024, 1024×768, 1440×900 untuk `/`, `/transactions`, `/transactions/new`, `/transactions/[id]/edit`, `/categories`, `/categories/[id]/edit`: tidak ada horizontal scroll.
+- Dialog konfirmasi hapus diuji pada 320×568, 375×812, 812×375, dan 768×1024 (light/dark): selalu berada di dalam viewport, tombol 44 px, dapat ditutup dengan Escape.
+- Bottom nav mobile: elemen interaktif terakhir tidak tertutup pada 375×812 dan 375×600; `safe-area-inset-bottom` aktif.
+- Auth `/login` dan `/signup` di 320, 375, 768, dan 1440 px: kartu penuh minus 32 px di mobile, 420 px terpusat di desktop, submit full-width, input 16 px di mobile, tanpa nav/aplikasi.
+- Light/dark konsisten di semua halaman; toggle bertahan setelah refresh; tidak ada hydration warning. Console produksi (`next start`) bersih.
+- Seluruh input, select, radio (melalui label 44 px), dan tombol memenuhi target ≥44×44 px; tidak ada aksi hover-only.
+
+Catatan: di `next dev` masih muncul diagnostik validasi Next.js `Next.js encountered the unstable value Date.now() while prerendering` yang berasal dari pembacaan sesi Supabase di `CoreLayout` (bukan dari perubahan T11). Diagnostik ini tidak muncul di `pnpm build` maupun console produksi, dan perbaikannya memerlukan migrasi batas `<Suspense>` Cache Components yang berada di luar cakupan audit responsif/tema.
 
 ## Di luar cakupan
 

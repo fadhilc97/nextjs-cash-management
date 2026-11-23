@@ -64,11 +64,15 @@ export function CategoryEditForm({
         />
       </Field>
 
-      <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-        <Button asChild variant="outline">
+      <div className="mt-5 flex flex-col-reverse gap-2 md:flex-row md:justify-end">
+        <Button asChild variant="outline" className="w-full md:w-auto">
           <Link href="/categories">Batal</Link>
         </Button>
-        <Button type="submit" disabled={pending}>
+        <Button
+          type="submit"
+          disabled={pending}
+          className="w-full md:w-auto"
+        >
           {pending ? "Menyimpan…" : "Simpan Perubahan"}
         </Button>
       </div>

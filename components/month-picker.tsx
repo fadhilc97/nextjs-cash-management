@@ -113,7 +113,7 @@ export function MonthPicker({ month, maxMonth }: MonthPickerProps) {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 transition-opacity duration-150 max-[1024px]:justify-center",
+        "flex flex-wrap items-center gap-2 transition-opacity duration-150 max-[1024px]:justify-center",
         pending && "opacity-60",
       )}
       aria-busy={pending}
@@ -138,7 +138,7 @@ export function MonthPicker({ month, maxMonth }: MonthPickerProps) {
           value={String(monthNumber)}
           disabled={pending}
           onChange={(event) => selectMonth(Number(event.target.value))}
-          className="h-11 rounded-md border border-input bg-card px-3 text-base font-semibold text-foreground outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-11 max-w-full min-w-0 rounded-md border border-input bg-card px-3 text-base font-semibold text-foreground outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
         >
           {MONTH_NAMES.map((name, index) => {
             const value = index + 1;
@@ -164,7 +164,7 @@ export function MonthPicker({ month, maxMonth }: MonthPickerProps) {
           value={String(year)}
           disabled={pending}
           onChange={(event) => selectYear(Number(event.target.value))}
-          className="h-11 rounded-md border border-input bg-card px-3 text-base font-semibold text-foreground tabular-nums outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-11 max-w-full min-w-0 rounded-md border border-input bg-card px-3 text-base font-semibold text-foreground tabular-nums outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
         >
           {years.map((optionYear) => (
             <option key={optionYear} value={String(optionYear)}>
