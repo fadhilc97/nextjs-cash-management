@@ -4,7 +4,7 @@
 
 **Blocked by:** T07 (service transaksi, daftar, form, dan month picker).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -81,19 +81,19 @@
 
 ## Acceptance criteria
 
-- [ ] Form edit memakai komponen yang sama dengan create dan semua field terisi.
-- [ ] `id` tidak valid/asing → 404; tidak ada crash.
-- [ ] Kategori asing/tidak ada ditolak server; data lama tidak berubah.
-- [ ] Update sukses redirect ke bulan tanggal baru dengan `status=updated`.
-- [ ] Daftar menampilkan aksi Ubah dan Hapus di tabel maupun kartu mobile.
-- [ ] Hapus hanya terjadi setelah konfirmasi dialog; copy §7.3.4 sesuai.
-- [ ] Dialog memenuhi fokus awal, focus trap, Escape, dan pengembalian fokus.
-- [ ] Delete idempoten/tidak membocorkan keberadaan transaksi; tidak ada stack trace.
-- [ ] Delete sukses redirect ke bulan transaksi dengan `status=deleted`.
-- [ ] Dashboard dan daftar langsung mencerminkan perubahan setelah edit/hapus.
-- [ ] Semua query memakai `userId` dari sesi.
-- [ ] Validasi form transaksi ubah/hapus di Server Action memakai skema Zod; tidak ada library validasi tambahan.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Form edit memakai komponen yang sama dengan create dan semua field terisi.
+- [x] `id` tidak valid/asing → 404; tidak ada crash.
+- [x] Kategori asing/tidak ada ditolak server; data lama tidak berubah.
+- [x] Update sukses redirect ke bulan tanggal baru dengan `status=updated`.
+- [x] Daftar menampilkan aksi Ubah dan Hapus di tabel maupun kartu mobile.
+- [x] Hapus hanya terjadi setelah konfirmasi dialog; copy §7.3.4 sesuai.
+- [x] Dialog memenuhi fokus awal, focus trap, Escape, dan pengembalian fokus.
+- [x] Delete idempoten/tidak membocorkan keberadaan transaksi; tidak ada stack trace.
+- [x] Delete sukses redirect ke bulan transaksi dengan `status=deleted`.
+- [x] Dashboard dan daftar langsung mencerminkan perubahan setelah edit/hapus.
+- [x] Semua query memakai `userId` dari sesi.
+- [x] Validasi form transaksi ubah/hapus di Server Action memakai skema Zod; tidak ada library validasi tambahan.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
 
 ## Di luar cakupan
 
