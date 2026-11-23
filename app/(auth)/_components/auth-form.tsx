@@ -166,6 +166,7 @@ export function AuthForm({ mode, action }: AuthFormProps) {
 
           {state.formError ? (
             <Alert
+              role="alert"
               variant="destructive"
               className="border border-negative/25 bg-negative-soft"
             >

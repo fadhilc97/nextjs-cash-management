@@ -5,6 +5,7 @@ import { StatusBanner, type SearchParams } from "@/components/status-banner";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -58,6 +59,9 @@ export default async function CategoriesPage({
         <>
           <div className="hidden overflow-hidden rounded-lg border border-border bg-card md:block">
             <Table>
+              <TableCaption className="sr-only">
+                Daftar kategori beserta jumlah transaksinya
+              </TableCaption>
               <TableHeader>
                 <TableRow className="border-b border-border hover:bg-transparent">
                   <TableHead className="h-11 px-4 text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">

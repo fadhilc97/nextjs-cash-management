@@ -157,7 +157,7 @@ export default async function DashboardPage({
           </h2>
           <Link
             href={transactionsHref}
-            className="text-sm leading-5 font-medium text-primary underline-offset-4 hover:underline"
+            className="rounded-sm text-sm leading-5 font-medium text-primary underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
           >
             Lihat semua transaksi
           </Link>

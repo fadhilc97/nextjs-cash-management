@@ -94,11 +94,11 @@ const LIST_CLASS: Record<NavVariant, string> = {
 
 const LINK_CLASS: Record<NavVariant, string> = {
   sidebar:
-    "flex h-11 items-center gap-3 rounded-md px-3 text-sm text-muted-foreground transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-foreground",
+    "flex h-11 items-center gap-3 rounded-md px-3 text-sm text-muted-foreground transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar focus-visible:outline-none",
   tablet:
-    "relative flex h-11 items-center gap-2 px-3 text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground",
+    "relative flex h-11 items-center gap-2 px-3 text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none",
   mobile:
-    "relative flex h-full flex-col items-center justify-center gap-1 text-[11px] leading-none text-muted-foreground transition-colors duration-150",
+    "relative flex h-full flex-col items-center justify-center gap-1 text-[11px] leading-none text-muted-foreground transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none",
 };
 
 const ACTIVE_CLASS: Record<NavVariant, string> = {

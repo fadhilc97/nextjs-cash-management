@@ -4,7 +4,7 @@
 
 **Blocked by:** T06, T08, T09 (semua halaman dan dialog sudah ada).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -49,14 +49,14 @@
 
 ## Acceptance criteria
 
-- [ ] A11Y-01..18 terpenuhi di semua halaman dan dialog.
-- [ ] Setiap state (pending, sukses, error, loading, empty, 404, sesi berakhir) punya copy dan peran ARIA yang benar.
-- [ ] Semua form mempertahankan input saat error dan mencegah double submit.
-- [ ] Tidak ada error mentah PostgreSQL/Supabase, stack trace, atau path server yang tampil.
-- [ ] Tidak ada error/warning console pada alur utama.
-- [ ] Perbaikan logika memiliki test regresi yang ditulis sebelum perbaikan.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
-- [ ] Tidak ada fitur atau dependensi baru.
+- [x] A11Y-01..18 terpenuhi di semua halaman dan dialog.
+- [x] Setiap state (pending, sukses, error, loading, empty, 404, sesi berakhir) punya copy dan peran ARIA yang benar.
+- [x] Semua form mempertahankan input saat error dan mencegah double submit.
+- [x] Tidak ada error mentah PostgreSQL/Supabase, stack trace, atau path server yang tampil.
+- [x] Tidak ada error/warning console pada alur utama.
+- [x] Perbaikan logika memiliki test regresi yang ditulis sebelum perbaikan.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Tidak ada fitur atau dependensi baru.
 
 ## Di luar cakupan
 
