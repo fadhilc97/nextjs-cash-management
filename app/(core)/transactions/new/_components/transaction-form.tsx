@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import type {
   CategoryOption,
   TransactionActionState,
+  TransactionActionValues,
 } from "@/utils/types/transaction.type";
 
 import { initialTransactionActionState } from "../../action-state";
@@ -27,6 +28,12 @@ interface TransactionFormProps {
   categories: CategoryOption[];
   defaultDate: string;
   cancelHref: string;
+  initialValues?: Partial<TransactionActionValues>;
+  initialFieldErrors?: Partial<
+    Record<keyof TransactionActionValues, string>
+  >;
+  initialFormError?: string;
+  submitLabel?: string;
 }
 
 const selectClassName =
@@ -40,14 +47,19 @@ export function TransactionForm({
   categories,
   defaultDate,
   cancelHref,
+  initialValues,
+  initialFieldErrors,
+  initialFormError,
+  submitLabel = "Simpan Transaksi",
 }: TransactionFormProps) {
   const [state, formAction, pending] = useActionState(
     action,
     initialTransactionActionState,
   );
-  const fieldErrors = state.fieldErrors ?? {};
-  const values = state.values;
-  const formKey = values ? JSON.stringify(values) : "initial";
+  const fieldErrors = state.fieldErrors ?? initialFieldErrors ?? {};
+  const values = state.values ?? initialValues;
+  const formError = state.formError ?? initialFormError;
+  const formKey = state.values ? JSON.stringify(state.values) : "initial";
 
   return (
     <form
@@ -56,13 +68,13 @@ export function TransactionForm({
       noValidate
       className="max-w-[640px] space-y-5"
     >
-      {state.formError ? (
+      {formError ? (
         <Alert
           role="alert"
           className="border border-negative/25 bg-negative-soft"
         >
           <AlertDescription className="text-sm leading-5 text-negative">
-            {state.formError}
+            {formError}
           </AlertDescription>
         </Alert>
       ) : null}
@@ -229,7 +241,7 @@ export function TransactionForm({
           <Link href={cancelHref}>Batal</Link>
         </Button>
         <Button type="submit" disabled={pending} className="w-full md:w-auto">
-          {pending ? "Menyimpan…" : "Simpan Transaksi"}
+          {pending ? "Menyimpan…" : submitLabel}
         </Button>
       </div>
     </form>

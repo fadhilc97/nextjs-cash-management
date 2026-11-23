@@ -11,6 +11,17 @@ export interface TransactionListItem {
   createdAt: Date;
 }
 
+export interface TransactionDetail {
+  id: number;
+  date: string;
+  description: string;
+  categoryId: number;
+  categoryName: string | null;
+  type: TransactionType;
+  amount: number;
+  createdAt: Date;
+}
+
 export interface CategoryOption {
   id: number;
   name: string;

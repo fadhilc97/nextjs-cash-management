@@ -18,6 +18,18 @@ const MIN_DATE = "2000-01-01";
 const MAX_AMOUNT = 2_000_000_000;
 const MAX_DESCRIPTION_LENGTH = 200;
 
+export const transactionIdSchema = z
+  .string()
+  .trim()
+  .regex(/^\d+$/)
+  .transform((value) => Number(value))
+  .pipe(z.number().int().positive().max(2_147_483_647));
+
+export const transactionMonthSchema = z
+  .string()
+  .trim()
+  .regex(/^\d{4}-(0[1-9]|1[0-2])$/);
+
 export interface TransactionSchemaOptions {
   /** Overrides "today" for deterministic tests. */
   today?: string;

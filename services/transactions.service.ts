@@ -1,11 +1,12 @@
 import { and, asc, desc, eq, gte, lt, sql } from "drizzle-orm";
 
 import { categories, transactions } from "@/db/schema";
-import { monthRange } from "@/lib/month";
+import { monthFromDate, monthRange } from "@/lib/month";
 import { db } from "@/services/drizzle.service";
 import type {
   CategoryOption,
   CreateTransactionInput,
+  TransactionDetail,
   TransactionListItem,
 } from "@/utils/types/transaction.type";
 
@@ -50,6 +51,46 @@ export async function listTransactionsByMonth(
     .orderBy(desc(transactions.date), desc(transactions.createdAt));
 
   return rows;
+}
+
+/**
+ * Reads one transaction scoped to its owner. Another user's id and a missing id
+ * both resolve to null so callers can surface a 404 without leaking existence.
+ * The category is joined only when it belongs to the same owner; an orphaned
+ * category leaves `categoryName` null instead of failing the read.
+ */
+export async function getTransactionById(
+  userId: string,
+  transactionId: number,
+): Promise<TransactionDetail | null> {
+  const [transaction] = await db
+    .select({
+      id: transactions.id,
+      date: transactions.date,
+      description: transactions.description,
+      categoryId: transactions.categoryId,
+      categoryName: categories.name,
+      type: transactions.type,
+      amount: transactions.amount,
+      createdAt: transactions.createdAt,
+    })
+    .from(transactions)
+    .leftJoin(
+      categories,
+      and(
+        eq(transactions.categoryId, categories.id),
+        eq(categories.userId, userId),
+      ),
+    )
+    .where(
+      and(
+        eq(transactions.id, transactionId),
+        eq(transactions.userId, userId),
+      ),
+    )
+    .limit(1);
+
+  return transaction ?? null;
 }
 
 /**
@@ -116,4 +157,96 @@ export async function createTransaction(
     amount: created.amount,
     createdAt: created.createdAt,
   };
+}
+
+/**
+ * Updates one of the owner's transactions after verifying that the target
+ * category also belongs to the same owner. Another user's transaction and a
+ * missing transaction both resolve to null, while a foreign or missing
+ * category is rejected with CategoryNotFoundError without touching the row.
+ */
+export async function updateTransaction(
+  userId: string,
+  transactionId: number,
+  input: CreateTransactionInput,
+): Promise<TransactionListItem | null> {
+  const existing = await getTransactionById(userId, transactionId);
+
+  if (!existing) {
+    return null;
+  }
+
+  const [category] = await db
+    .select({ id: categories.id, name: categories.name })
+    .from(categories)
+    .where(
+      and(
+        eq(categories.id, input.categoryId),
+        eq(categories.userId, userId),
+      ),
+    )
+    .limit(1);
+
+  if (!category) {
+    throw new CategoryNotFoundError();
+  }
+
+  const [updated] = await db
+    .update(transactions)
+    .set({
+      date: input.date,
+      description: input.description.trim(),
+      categoryId: category.id,
+      type: input.type,
+      amount: input.amount,
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(transactions.id, transactionId),
+        eq(transactions.userId, userId),
+      ),
+    )
+    .returning();
+
+  if (!updated) {
+    return null;
+  }
+
+  return {
+    id: updated.id,
+    date: updated.date,
+    description: updated.description,
+    categoryId: updated.categoryId,
+    categoryName: category.name,
+    type: updated.type,
+    amount: updated.amount,
+    createdAt: updated.createdAt,
+  };
+}
+
+/**
+ * Hard-deletes one of the owner's transactions. Another user's id and a
+ * missing id both resolve to null. The deleted row's month is returned so the
+ * caller can redirect to the month it came from.
+ */
+export async function deleteTransaction(
+  userId: string,
+  transactionId: number,
+): Promise<{ id: number; month: string } | null> {
+  const [deleted] = await db
+    .delete(transactions)
+    .where(
+      and(
+        eq(transactions.id, transactionId),
+        eq(transactions.userId, userId),
+      ),
+    )
+    .returning({ id: transactions.id, date: transactions.date });
+
+  if (!deleted) {
+    return null;
+  }
+
+  return { id: deleted.id, month: monthFromDate(deleted.date) };
 }

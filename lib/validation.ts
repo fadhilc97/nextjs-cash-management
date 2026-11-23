@@ -9,6 +9,7 @@ export const validationMessages = {
   descriptionRequired: "Uraian wajib diisi.",
   descriptionTooLong: "Uraian maksimal 200 karakter.",
   categoryRequired: "Kategori wajib dipilih.",
+  categoryNotFound: "Kategori tidak ditemukan. Muat ulang halaman.",
   typeInvalid: "Jenis transaksi tidak valid.",
   amountRequired: "Nominal wajib diisi.",
   amountNotInteger: "Nominal harus berupa bilangan bulat.",

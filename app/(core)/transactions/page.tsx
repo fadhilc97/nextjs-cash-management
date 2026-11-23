@@ -24,6 +24,8 @@ import {
   listTransactionsByMonth,
 } from "@/services/transactions.service";
 
+import { TransactionActions } from "./_components/transaction-actions";
+
 export const metadata: Metadata = {
   title: "Transaksi — Cash Management",
 };
@@ -104,17 +106,20 @@ export default async function TransactionsPage({
               </TableCaption>
               <TableHeader>
                 <TableRow className="border-b border-border hover:bg-transparent">
-                  <TableHead className="h-11 w-[120px] px-4 text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
+                  <TableHead className="h-11 w-[110px] px-4 text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
                     Tanggal
                   </TableHead>
                   <TableHead className="h-11 px-4 text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
                     Uraian
                   </TableHead>
-                  <TableHead className="h-11 w-[160px] px-4 text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
+                  <TableHead className="h-11 w-[130px] px-4 text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
                     Kategori
                   </TableHead>
-                  <TableHead className="h-11 w-[170px] px-4 text-right text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
+                  <TableHead className="h-11 w-[150px] px-4 text-right text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
                     Nominal
+                  </TableHead>
+                  <TableHead className="h-11 w-[150px] px-4 text-right text-xs font-semibold tracking-[0.04em] text-muted-foreground uppercase">
+                    Aksi
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -152,6 +157,9 @@ export default async function TransactionsPage({
                       }`}
                     >
                       {formatSignedRupiah(transaction.amount, transaction.type)}
+                    </TableCell>
+                    <TableCell className="px-2 py-2">
+                      <TransactionActions transaction={transaction} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -195,6 +203,11 @@ export default async function TransactionsPage({
                 >
                   {formatSignedRupiah(transaction.amount, transaction.type)}
                 </p>
+
+                <TransactionActions
+                  transaction={transaction}
+                  className="mt-3"
+                />
               </div>
             ))}
           </div>
