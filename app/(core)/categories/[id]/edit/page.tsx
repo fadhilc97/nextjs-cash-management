@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 
 import { requireUser } from "@/lib/auth";
 import { categoryIdSchema } from "@/lib/validations/category.validation";
@@ -17,6 +18,7 @@ export default async function EditCategoryPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await connection();
   const user = await requireUser();
   const { id } = await params;
 

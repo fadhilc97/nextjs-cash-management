@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 
 import { EmptyState } from "@/components/empty-state";
 import { StatusBanner, type SearchParams } from "@/components/status-banner";
@@ -27,6 +28,7 @@ export default async function CategoriesPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
+  await connection();
   const user = await requireUser();
   const params = await searchParams;
   const categories = await listCategories(user.id);

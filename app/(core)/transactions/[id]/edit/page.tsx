@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 
 import { requireUser } from "@/lib/auth";
 import { todayInJakarta } from "@/lib/date";
@@ -23,6 +24,7 @@ export default async function EditTransactionPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await connection();
   const user = await requireUser();
   const { id } = await params;
 

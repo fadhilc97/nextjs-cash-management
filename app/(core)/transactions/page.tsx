@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import Link from "next/link";
 
 import { EmptyState } from "@/components/empty-state";
@@ -58,6 +59,7 @@ export default async function TransactionsPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
+  await connection();
   const user = await requireUser();
   const params = await searchParams;
   const month = resolveActiveMonth(params.month);

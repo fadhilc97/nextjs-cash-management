@@ -4,7 +4,7 @@
 
 **Blocked by:** T10 (aksesibilitas/state) dan T11 (responsif/tema).
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Konteks wajib
 
@@ -61,17 +61,17 @@
 
 ## Acceptance criteria
 
-- [ ] README lengkap dan sesuai implementasi final.
-- [ ] `.env.example` lengkap, tanpa rahasia.
-- [ ] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
-- [ ] Seluruh QA §12 lulus dan hasilnya dicatat; tidak ada kegagalan P0 terbuka.
-- [ ] Definition of Done §13 terpenuhi seluruhnya.
-- [ ] Migrasi dari database kosong berhasil dan tidak ada drift.
-- [ ] Tidak ada secret, `.env`, token, atau password di repository.
-- [ ] Tidak ada halaman/komponen demo `users`, teks "Create Next App", "TODO", atau "Coming soon".
-- [ ] Tidak ada fitur di luar §5 PRD (reset password, OAuth, dompet, budget, chart, pagination, dan lainnya).
-- [ ] Tidak ada error/warning console pada alur utama.
-- [ ] Perubahan hanya berisi dokumentasi dan perbaikan yang diperlukan; tidak ada refactor berskala besar.
+- [x] README lengkap dan sesuai implementasi final.
+- [x] `.env.example` lengkap, tanpa rahasia.
+- [x] `pnpm test`, `pnpm test:db`, `pnpm lint`, dan `pnpm build` lulus.
+- [x] Seluruh QA §12 lulus dan hasilnya dicatat; tidak ada kegagalan P0 terbuka.
+- [x] Definition of Done §13 terpenuhi seluruhnya.
+- [x] Migrasi dari database kosong berhasil dan tidak ada drift.
+- [x] Tidak ada secret, `.env`, token, atau password di repository.
+- [x] Tidak ada halaman/komponen demo `users`, teks "Create Next App", "TODO", atau "Coming soon".
+- [x] Tidak ada fitur di luar §5 PRD (reset password, OAuth, dompet, budget, chart, pagination, dan lainnya).
+- [x] Tidak ada error/warning console pada alur utama.
+- [x] Perubahan hanya berisi dokumentasi dan perbaikan yang diperlukan; tidak ada refactor berskala besar.
 
 ## Di luar cakupan
 

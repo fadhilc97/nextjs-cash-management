@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import Link from "next/link";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -40,6 +41,7 @@ export default async function NewTransactionPage({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
+  await connection();
   const user = await requireUser();
   const params = await searchParams;
   const activeMonth = resolveActiveMonth(params.month);
